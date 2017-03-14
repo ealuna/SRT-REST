@@ -11,7 +11,7 @@
             try {
                 self::get_data_base();
             } catch (PDOException $e) {
-                echo "Error: ".$e
+                echo "Error: ".$e;
             }
         }
 
