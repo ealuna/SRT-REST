@@ -1,11 +1,31 @@
+#Establece otra pagina como index
+DirectoryIndex test.php
+
+#Crear una mascara para la URL '/RAIZ/DATO1/DATO2/..'
 <IfModule mod_rewrite.c>
 
-RewriteEngine on
-RewriteBase /REST
-RewriteCond %{REQUEST_FILENAME} !-f 
-RewriteCond %{REQUEST_FILENAME} !-d 
+	RewriteEngine on
+	RewriteBase /REST
+	RewriteCond %{REQUEST_FILENAME} !-f 
+	RewriteCond %{REQUEST_FILENAME} !-d 
 
-RewriteRule ^(.*)$ test.php/$1 [NC,QSA,L]
-#RewriteRule ^(.*)$ test.php/$1 [NC,QSA,L]
+	#Establece la pagina a donde se enviaran los datos
+	RewriteRule ^(.*)$ test.php/$1 [NC,QSA,L]
 
 </IfModule>
+
+#Prohibe el acceso a config.php
+<Files config.php>
+
+	Order allow,deny
+	Deny from all
+
+</Files>
+
+#Prohibe el acceso a connection.php
+<Files connection.php>
+
+	Order allow,deny
+	Deny from all
+
+</Files>
