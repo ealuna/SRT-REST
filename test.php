@@ -2,10 +2,10 @@
 require_once 'connection.php';
 $as = trim($_SERVER['PATH_INFO'], "/");
 $request = explode('/', $as);
-
-//echo $as;
 print_r($request);
-$req1 = preg_replace('/[^a-z0-9_]+/i','',$request);
+//echo $as;
+print_r(array_shift($request));
+/*$req1 = preg_replace('/[^a-z0-9_]+/i','',$request);
 print_r($req1);
 //echo $_SERVER['PATH_INFO']."\n";
 $link = connection::get_connection()->get_data_base();
@@ -19,5 +19,9 @@ $link = connection::get_connection()->get_data_base();
   },array_values($request));
 
   print_r($values);
+  */
+print_r(array_shift($request));
+print_r(array_shift($request));
+print_r($_SERVER['REQUEST_METHOD']);
 
 ?>
