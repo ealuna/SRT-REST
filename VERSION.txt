@@ -1,0 +1,10 @@
+---------------------------------------------------------------
+Version 0.1 - 16 de marzo de 2017
+---------------------------------------------------------------
+-Por el momento solo permite GET and DELETE
+-Permite devolver tablas completas ..\REST\nombre_tabla 
+-Funcional unicamente para tablas con llave primaria 'idcliente' por el momento
+-Aun no permite consultas mas complejas
+-Formato de peticion es ..\REST\nombre_tabla\clave_unica
+
+
