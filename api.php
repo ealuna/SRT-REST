@@ -3,17 +3,15 @@
   require_once 'execute.php';
 
     $method = $_SERVER['REQUEST_METHOD']; // Tipo de peticion
-    $as = trim($_SERVER['PATH_INFO'], '/');
-    $request = explode('/', $as); // Tabla y codigo
-    //$input = json_decode(file_get_contents('php://input'), true); // Datos capturados
-
+    $request = explode('/', trim($_SERVER['PATH_INFO'],'/')); // Tabla y codigo
+    $input = json_decode(file_get_contents('php://input'), true); // Datos capturados
     // retrieve the table and key from the path
     $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
     $key = array_shift($request);
 
     // escape the columns and values from the input object
     //$columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
-   // $link = connection::get_connection()->get_data_base();
+    //$link = connection::get_connection()->get_data_base();
  /*   $values = array_map(function ($value) use ($link) {
       if ($value===null) {
         return null;
@@ -34,8 +32,8 @@
     }*/
 
   // excecute SQL statement
-  $result = execute::get_execute()->get_result($method, $table, $key, $set);
-   print_r($result);
+    $result = execute::get_execute()->get_result($method, $table, $key, $set);
+    print_r($result);
   // die if SQL statement failed
 /*  if (!$result) {
     http_response_code(404);

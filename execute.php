@@ -11,7 +11,6 @@
             try {
                 connection::get_connection()->get_data_base();
             } catch (PDOException $e) {
-                echo "Error: ".$e;
             }
         }
 
@@ -25,29 +24,29 @@
 
         // Devuelve el resultado de la operacion
 		public function get_result($method, $table, $key, $set){
-            if (self::$res === null) {
-            	$sql = '';
-            	  switch ($method) {
-				    case 'GET':
-				    	$sql = "select * from $table".($key===null?"":" WHERE idcliente=$key"); break;
-				    case 'PUT':
-						$sql = "update $table set $set where idcliente=$key"; break;
-				    case 'POST':
-				    	$sql = "insert into $table set ($set)"; break;
-				    case 'DELETE':
-				    	$sql = "delete $table where id=$key"; break;
-				    default:
-						$sql = "";
-				  }
-
-				  $sentencia = connection::get_connection()->get_data_base();
-				  //$sentencia->execute();
-				  //$result = $sentencia->fetchAll(PDO::FETCH_ASSOC);
-				  $res = $sentencia->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-				  return self::$res;
-				
+            try{
+                if (self::$res === null) {
+                    switch ($method) {
+                        case 'GET':
+                            $sql = "SELECT * FROM ".$table.($key===null?"":" WHERE idcliente=$key"); break;
+                        case 'PUT':
+                            $sql = "UPDATE $table SET $set WHERE idcliente=$key"; break;
+                        case 'POST':
+                            $sql = "INSERT INTO $table SET($set)"; break;
+                        case 'DELETE':
+                            $sql = "DELETE $table WHERE id=$key"; break;
+                        default:
+                            $sql = "";
+                    }
+                    $sentencia = connection::get_connection()->get_data_base()->prepare($sql);
+                    $sentencia->execute();
+                    $res = $sentencia->fetchAll();
+                    return json_encode($res);				
+                }
+                return self::$res;
+            }catch(PDOException $e) {
+                throw new ExcepcionApi(self::ESTADO_ERROR_BD, $e->getMessage());
             }
-            return self::$res;
         }
 
         // Evita la clonación del objeto
