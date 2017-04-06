@@ -1,5 +1,5 @@
 #Establece otra pagina como index
-DirectoryIndex test.php
+DirectoryIndex api.php
 
 #Crear una mascara para la URL '/RAIZ/DATO1/DATO2/..'
 <IfModule mod_rewrite.c>
@@ -10,7 +10,7 @@ DirectoryIndex test.php
 	RewriteCond %{REQUEST_FILENAME} !-d 
 
 	#Establece la pagina a donde se enviaran los datos
-	RewriteRule ^(.*)$ test.php/$1 [NC,QSA,L]
+	RewriteRule ^(.*)$ api.php/$1 [NC,QSA,L]
 
 </IfModule>
 
@@ -29,3 +29,19 @@ DirectoryIndex test.php
 	Deny from all
 
 </Files>
+
+#Prohibe el acceso a execute.php
+<Files execute.php>
+
+	Order allow,deny
+	Deny from all
+
+</Files>
+
+#Prohibe el acceso a archivos de las siguientes extensiones
+<FilesMatch "\.(htaccess|htpasswd|ini|phps|log|bak|txt)$">
+
+	Order Allow,Deny
+	Deny from all
+
+</FilesMatch>
