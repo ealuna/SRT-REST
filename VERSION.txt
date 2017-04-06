@@ -7,4 +7,10 @@ Version 0.1 - 16 de marzo de 2017
 -Aun no permite consultas mas complejas
 -Formato de peticion es ..\REST\nombre_tabla\clave_unica
 
-
+---------------------------------------------------------------
+Version 0.2 - 06 de Abril 2017
+---------------------------------------------------------------
+-Estructura cambiada ahora llamar procesos almacenados
+-Permite POST y GET
+-Nuevo formato de peticion es ..\REST\nombre_proceso_almacenado\clave_unica(si es para GET)
+-Recibe JSON para el metodo POST
