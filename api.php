@@ -6,34 +6,39 @@
     $request = explode('/', trim($_SERVER['PATH_INFO'],'/')); // Tabla y codigo
     $input = json_decode(file_get_contents('php://input'), true); // Datos capturados
     // retrieve the table and key from the path
-    $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
-    $key = array_shift($request);
 
-    // escape the columns and values from the input object
-    //$columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
-    //$link = connection::get_connection()->get_data_base();
- /*   $values = array_map(function ($value) use ($link) {
+    $set = '';
+    if (isset($input)) {
+    $columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
+    $link = connection::get_connection()->get_data_base();
+    $values = array_map(function ($value) use ($link) {
       if ($value===null) {
         return null;
       }else{
         return $link->quote((string)$value);
       }  
-    },array_values($input));  */
+    },array_values($input));  
  
     // build the SET part of the SQL command
-    $set = '';
+    
 
-    /*for ($i=0; $i<count($columns); $i++) {
+      for ($i=0; $i<count($columns); $i++) {
+        $set.=($i>0?',':'');
+        $set.=($method==='GET'?'':'@'.$columns[$i].'=');
+        $set.=($values[$i]===null?'NULL':$values[$i]);
+      }
+    }
 
-      $set.=($i>0?',':'');
-      $set.=($method==='GET'?'':$columns[$i].'=');
-      $set.=($values[$i]===null?'NULL':$values[$i]);
+    $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
+    $key = array_shift($request);
 
-    }*/
+    // escape the columns and values from the input object
 
   // excecute SQL statement
     $result = execute::get_execute()->get_result($method, $table, $key, $set);
+  ob_start('ob_gzhandler');  
     print_r($result);
+    ob_flush();
   // die if SQL statement failed
 /*  if (!$result) {
     http_response_code(404);
